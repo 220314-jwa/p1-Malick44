@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class Users {
 
-	private int userid;
+	private int employeeId;
 	private String firstName;
 	private String lastName;
 	private String userName;
@@ -12,7 +12,7 @@ public class Users {
 	private boolean isLoggedIn = false;
 
 	public Users() {
-		userid = 0;
+		employeeId = 0;
 		firstName = "";
 		lastName = "";
 		userName = "";
@@ -20,26 +20,34 @@ public class Users {
 		isLoggedIn = false;
 	}
 
-	private static Users userInstance = new Users();
+//	public static Users getUser(Employees person, String userName, String passWord) {
+//
+//		List<Users> users = new ArrayList<>();
+//
+//		Users newuser = new Users();
+//		if (userName != null) {
+//			newuser.setEmployeeId(person.getEmployeeId());
+//			newuser.setFirstName(person.getFirstName());
+//			newuser.setLastName(person.getLastName());
+//			newuser.setUserName(userName);
+//			newuser.setPassWord(passWord);
+//			newuser.setLoggedIn(false);
+//
+//			users.add(newuser);
+//
+//			return newuser;
+//
+//		} else
+//
+//			return null;
+//	}
 
-	public static Users getUser(String userName) {
-		if (userName == userInstance.getUserName()) {
-			return userInstance;
-		} else
-			return null;
+	public int getEmployeeId() {
+		return employeeId;
 	}
 
-	public Users(String userName, String passWord) {
-		this.userName = userName;
-		this.passWord = passWord;
-	}
-
-	public int getId() {
-		return userid;
-	}
-
-	public void setId(int id) {
-		this.userid = id;
+	public void setEmployeeId(int id) {
+		this.employeeId = id;
 	}
 
 	public String getFirstName() {
@@ -84,7 +92,7 @@ public class Users {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(firstName, isLoggedIn, lastName, passWord, userName, userid);
+		return Objects.hash(firstName, isLoggedIn, lastName, passWord, userName, employeeId);
 	}
 
 	@Override
@@ -98,12 +106,12 @@ public class Users {
 		Users other = (Users) obj;
 		return Objects.equals(firstName, other.firstName) && isLoggedIn == other.isLoggedIn
 				&& Objects.equals(lastName, other.lastName) && Objects.equals(passWord, other.passWord)
-				&& Objects.equals(userName, other.userName) && userid == other.userid;
+				&& Objects.equals(userName, other.userName) && employeeId == other.employeeId;
 	}
 
 	@Override
 	public String toString() {
-		return "Users [userid=" + userid + ", firstName=" + firstName + ", lastName=" + lastName + ", userName="
+		return "Users [userid=" + employeeId + ", firstName=" + firstName + ", lastName=" + lastName + ", userName="
 				+ userName + "]";
 	}
 

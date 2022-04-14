@@ -2,14 +2,13 @@ package net.revature.model;
 
 import java.util.Objects;
 
-public class EventType {
+public class EventTypes {
 	private int eventTypeId;
 	private String eventTypeName;
 
-	public EventType() {
-
-		eventTypeId = 0;
-		eventTypeName = "";
+	public EventTypes() {
+		this.eventTypeId = 0;
+		this.eventTypeName = "Undifined";
 	}
 
 	public int getEventTypeId() {
@@ -41,8 +40,14 @@ public class EventType {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		EventType other = (EventType) obj;
+		EventTypes other = (EventTypes) obj;
 		return eventTypeId == other.eventTypeId && Objects.equals(eventTypeName, other.eventTypeName);
+
+	}
+
+	@Override
+	public String toString() {
+		return "EventTypes [Id=" + eventTypeId + ", eventTypeName=" + eventTypeName + "]";
 	}
 
 }

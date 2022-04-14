@@ -38,9 +38,7 @@ public class EmployeesDAOImpl implements EmployeesDAO {
 			while (rs.next()) {
 				Employees employee = parseResulset(rs);
 				employees.add(employee);
-				for (Employees e : employees) {
-					System.out.println(e);
-				}
+
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -70,8 +68,8 @@ public class EmployeesDAOImpl implements EmployeesDAO {
 		ResultSet resultSet;
 		int count = 0;
 		// sql statement that will insert new object employees table
-		String sql = "INSERT INTO employees(employeeId,firstname, lastname, amagerid, departmentid)"
-				+ "VALUES (default,?,?,?)";
+		String sql = "INSERT INTO employees(employeeId,firstname, lastname, mamagerid, departmentid)"
+				+ "VALUES (default,?,?,?,?)";
 		// set up a preparedStatement that takes sql and RETURN_GENERATED_KEYS as an
 		// argumentS
 		try {
@@ -80,6 +78,7 @@ public class EmployeesDAOImpl implements EmployeesDAO {
 			pstmt.setString(1, newEmployee.getFirstName());
 			pstmt.setString(2, newEmployee.getLastName());
 			pstmt.setInt(3, newEmployee.getManagerId());
+			pstmt.setInt(4, newEmployee.getDepartmentId());
 
 			count = pstmt.executeUpdate();
 			resultSet = pstmt.getGeneratedKeys();
@@ -113,22 +112,117 @@ public class EmployeesDAOImpl implements EmployeesDAO {
 
 	@Override
 	public Employees getById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		Employees employee = new Employees();
+		Connection connection = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = "SELECT * FROM EMPLOYEES WHERE EMPLOYEEID =? ";
+
+		try {
+			connection = DAOConnectionUtilities.getConnection();
+			pstmt = connection.prepareStatement(sql);
+			pstmt.setInt(1, id);
+
+			rs = pstmt.executeQuery(); // execute query
+			// get resultSet from query and parse to object
+			while (rs.next()) {
+				employee = parseResulset(rs);
+
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return employee;
 	}
 
 	@Override
 	public int update(Employees obj) {
-		return 0;
+		Connection connection = null;
+		PreparedStatement pstmt = null;
+		int count = 0;
 
-		// TODO Auto-generated method stub
+		String sql = "UPDATE Employees SET firstname=?, lastname=?, mamagerid= ?, departmentid =? WHERE employeeid =?";
+
+		if (connection == null) {
+			connection = DAOConnectionUtilities.getConnection();
+			try {
+				pstmt = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+				pstmt.setString(1, obj.getFirstName());
+				pstmt.setString(2, obj.getLastName());
+				pstmt.setInt(3, obj.getManagerId());
+				pstmt.setInt(4, obj.getDepartmentId());
+
+				count = pstmt.executeUpdate();
+				if (count != 1) {
+					System.out.println("Oops! Something went wrong with the update!");
+
+				} else
+					connection.commit();
+
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				if (pstmt != null)
+					try {
+
+						pstmt.close();
+						if (connection != null)
+							connection.close();
+					} catch (SQLException e) {
+
+						e.printStackTrace();
+					}
+
+			}
+
+		}
+
+		return count;
 
 	}
 
 	@Override
 	public void deleteteById(int id) {
-		// TODO Auto-generated method stub
 
+		Connection connection = null;
+		PreparedStatement pstmt = null;
+		int count = 0;
+
+		String sql = "DELETE FROM Employees where EmployeeId =?; ";
+
+		if (connection == null) {
+			connection = DAOConnectionUtilities.getConnection();
+			try {
+				pstmt = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+				pstmt.setInt(1, id);
+				count = pstmt.executeUpdate();
+				if (count != 1) {
+					System.out.println("Oops! Something went wrong with the update!");
+
+				} else
+					connection.commit();
+
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				if (pstmt != null)
+					try {
+
+						pstmt.close();
+						if (connection != null)
+							connection.close();
+					} catch (SQLException e) {
+
+						e.printStackTrace();
+					}
+
+			}
+
+		}
 	}
 
 }

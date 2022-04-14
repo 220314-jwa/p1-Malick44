@@ -8,7 +8,7 @@ public class DAOConnectionUtilities {
 
 	private static Connection connection = null; // static connection object
 
-	public static final Connection getConnection() {
+	public static synchronized Connection getConnection() {
 
 		// setting connections variables
 		// ResourceBundle bundle = ResourceBundle.getBundle("dbConfig");

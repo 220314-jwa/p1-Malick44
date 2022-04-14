@@ -10,16 +10,13 @@ import net.revature.exceptions.EmployeeDoesnotExistException;
 import net.revature.exceptions.IncorrectCredentialsException;
 import net.revature.model.Employees;
 import net.revature.model.ReimbursementRequests;
-import net.revature.model.Users;
 
 class UserServicesImplTest {
 
-// set up test environment 	
-	UserServices usdaoTest = new UserServicesImpl();
-	Users testUser = new Users();
-
 	@Test
 	void testlogin() throws IncorrectCredentialsException {
+		// set up test environment
+		UserServices usdaoTest = new UserServicesImpl();
 
 		String userName = "";
 		String passWord = "";
@@ -45,6 +42,9 @@ class UserServicesImplTest {
 
 	void lestlogingtrhowsException() {
 
+		// set up
+		UserServices usdaoTest = new UserServicesImpl();
+
 		String userName = "";
 		String passWord = "";
 
@@ -56,18 +56,16 @@ class UserServicesImplTest {
 	void testSetApproval() {
 
 		// assert same
-
 		int requestId = 23;
 		int requestStatusid;
-
-		assertEquals(null, null);
 
 	}
 
 	@Test
 	void registerUserTest() {
-
 		// assertnotnull,
+		UserServices usdaoTest = new UserServicesImpl();
+
 	}
 
 	@Test

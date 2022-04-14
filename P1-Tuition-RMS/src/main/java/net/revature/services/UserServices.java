@@ -5,10 +5,9 @@ package net.revature.services;
 
 import java.util.List;
 
+import net.revature.exceptions.AlreadyExistException;
 import net.revature.exceptions.EmployeeDoesnotExistException;
 import net.revature.exceptions.IncorrectCredentialsException;
-import net.revature.exceptions.UserNameAlredyExistException;
-import net.revature.model.Employees;
 import net.revature.model.ReimbursementRequests;
 import net.revature.model.RequestStatus;
 import net.revature.model.Users;
@@ -17,17 +16,18 @@ import net.revature.model.Users;
 
 public interface UserServices {
 
-	public int login(String userName, String passWord) throws IncorrectCredentialsException;
+	public List<ReimbursementRequests> getAllRequests();
+
+	public Users registerUser(Users newUser) throws AlreadyExistException;
+
+	public Users login(String userName, String passWord) throws IncorrectCredentialsException;
 
 	public void setApproval(int requestId);// method will can approve or reject
 
-	public RequestStatus checkReimbursementRequestsStatus(int requestid);
+	public RequestStatus getStatusById(int requestId);
 
-	public int registerUser(Users newUser) throws UserNameAlredyExistException;
+	public int submitRequest(ReimbursementRequests requestObj) throws EmployeeDoesnotExistException;
 
-	public int submitReimbursenentRequest(Employees empObj, ReimbursementRequests requestObj)
-			throws EmployeeDoesnotExistException;
-
-	List<Users> getAllUsers();
+	public Users getUserById(int id);
 
 }

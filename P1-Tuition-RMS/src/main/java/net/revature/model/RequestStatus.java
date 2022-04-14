@@ -3,13 +3,22 @@ package net.revature.model;
 import java.util.Objects;
 
 public class RequestStatus {
+	private int requestId;
 	private int statusId;
-	private String status = "";
+	private String status;
 
 	public RequestStatus() {
-
+		requestId = 0;
 		statusId = 0;
 		status = "";
+	}
+
+	public int getRequestId() {
+		return requestId;
+	}
+
+	public void setRequestId(int requestId) {
+		this.requestId = requestId;
 	}
 
 	public int getStatusId() {
@@ -47,7 +56,7 @@ public class RequestStatus {
 
 	@Override
 	public String toString() {
-		return "RequestStatus [statusId=" + statusId + ", status=" + status + "]";
+		return "RequestStatus [requestId=" + requestId + ", statusId=" + statusId + ", status=" + status + "]";
 	}
 
 }

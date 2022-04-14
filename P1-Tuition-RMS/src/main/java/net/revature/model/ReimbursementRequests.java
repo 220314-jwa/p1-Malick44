@@ -1,6 +1,7 @@
 package net.revature.model;
 
 import java.sql.Date;
+import java.sql.Time;
 
 public class ReimbursementRequests {
 	private int requestId;
@@ -8,10 +9,10 @@ public class ReimbursementRequests {
 	private int eventTypeId;
 	private int statusId;
 	private double cost;
-	private Date eventDate;
+	private java.sql.Date eventDate;
 	private String description;
 	private String lacation;
-	private Date submissionTime;
+	private Time submissionTime;
 
 	public ReimbursementRequests() {
 		requestId = 0;
@@ -89,12 +90,12 @@ public class ReimbursementRequests {
 		this.lacation = lacation;
 	}
 
-	public Date getSubmissionTime() {
+	public Time getSubmissionTime() {
 		return submissionTime;
 	}
 
-	public void setSubmissionTime(Date submissionTime) {
-		this.submissionTime = submissionTime;
+	public void setSubmissionTime(Time sqlTime) {
+		this.submissionTime = sqlTime;
 	}
 
 	@Override

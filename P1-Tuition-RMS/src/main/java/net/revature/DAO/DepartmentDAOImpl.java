@@ -17,7 +17,7 @@ public class DepartmentDAOImpl implements DepartmentDAO {
 	@Override
 	public List<Department> getAll() {
 
-		List<Department> departments = new ArrayList();
+		List<Department> departments = new ArrayList<>();
 		Connection connection = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -32,9 +32,9 @@ public class DepartmentDAOImpl implements DepartmentDAO {
 			while (rs.next()) {
 				Department department = parseResulset(rs);
 				departments.add(department);
-				for (Department d : departments) {
-					System.out.println(d);
-				}
+				// for (Department d : departments) {
+				// System.out.println(d);
+				// }
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -98,8 +98,30 @@ public class DepartmentDAOImpl implements DepartmentDAO {
 
 	@Override
 	public Department getById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		Department department = new Department();
+		Connection connection = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = "SELECT * FROM DEPARTMENT WHERE departmentid =? ";
+
+		try {
+			connection = DAOConnectionUtilities.getConnection();
+			pstmt = connection.prepareStatement(sql);
+			pstmt.setInt(1, id);
+
+			rs = pstmt.executeQuery(); // execute query
+			// get resultSet from query and parse to object
+			while (rs.next()) {
+				department = parseResulset(rs);
+				System.out.println(department);
+
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return department;
 	}
 
 	@Override
@@ -113,10 +135,10 @@ public class DepartmentDAOImpl implements DepartmentDAO {
 		if (connection == null) {
 			connection = DAOConnectionUtilities.getConnection();
 			try {
-				pstmt = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-				pstmt.setString(0, obj.getDepartmentName());
-				pstmt.setInt(1, obj.getDepartmentHeadId());
-				pstmt.setInt(2, obj.getDepartmentId());
+				pstmt = connection.prepareStatement(sql);
+				pstmt.setString(1, obj.getDepartmentName());
+				pstmt.setInt(2, obj.getDepartmentHeadId());
+				pstmt.setInt(3, obj.getDepartmentId());
 
 				count = pstmt.executeUpdate();
 				if (count != 1) {
@@ -187,20 +209,6 @@ public class DepartmentDAOImpl implements DepartmentDAO {
 
 		}
 
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public Department getEmployeeById(int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public int createEmployee(Department obj) {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 
 }

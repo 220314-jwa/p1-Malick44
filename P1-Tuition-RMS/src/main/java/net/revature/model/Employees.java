@@ -12,8 +12,8 @@ public class Employees {
 	public Employees() {
 
 		employeeId = 0;
-		firstName = null;
-		lastName = null;
+		firstName = "Unassigned";
+		lastName = "Unassigned";
 		managerId = 0;
 		departmentId = 0;
 	}

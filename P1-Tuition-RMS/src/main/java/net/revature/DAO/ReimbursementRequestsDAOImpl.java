@@ -13,6 +13,7 @@ public class ReimbursementRequestsDAOImpl implements ReimbursementRequestsDAO {
 
 	@Override
 	public List<ReimbursementRequests> getAll() {
+
 		List<ReimbursementRequests> reimbursementRequests = new ArrayList();
 		Connection connection = null;
 		PreparedStatement pstmt = null;
@@ -43,15 +44,15 @@ public class ReimbursementRequestsDAOImpl implements ReimbursementRequestsDAO {
 
 	private ReimbursementRequests parseResulset(ResultSet rs) throws SQLException {
 		ReimbursementRequests reimbRequest = new ReimbursementRequests();
-		reimbRequest.setRequestId(rs.getInt(0));
-		reimbRequest.setEmployeeId(rs.getInt(1));
-		reimbRequest.setEventTypeId(rs.getInt(2));
-		reimbRequest.setStatusId(rs.getInt(3));
-		reimbRequest.setCost(rs.getDouble(4));
-		reimbRequest.setEventDate(rs.getDate(5));
-		reimbRequest.setDescription(rs.getNString(6));
-		reimbRequest.setLacation(rs.getString(7));
-		reimbRequest.setSubmissionTime(rs.getDate(8));
+		reimbRequest.setRequestId(rs.getInt(1));
+		reimbRequest.setEmployeeId(rs.getInt(2));
+		reimbRequest.setEventTypeId(rs.getInt(3));
+		reimbRequest.setStatusId(rs.getInt(4));
+		reimbRequest.setCost(rs.getDouble(5));
+		reimbRequest.setEventDate(rs.getDate(6));
+		reimbRequest.setDescription(rs.getString(7));
+		reimbRequest.setLacation(rs.getString(8));
+		reimbRequest.setSubmissionTime(rs.getTime(9));
 
 		return reimbRequest;
 	}
@@ -63,8 +64,8 @@ public class ReimbursementRequestsDAOImpl implements ReimbursementRequestsDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
-		String sql = "INSERT INTO ReimbursementRequests(requestId, employeeId, eventTypeId,statusId,"
-				+ "eventDate,description,submissionTime)" + "VALUES (default,?,?,?,?,?,?)";
+		String sql = "INSERT INTO ReimbursementRequests(requestId, employeeId, eventTypeId,statusId, Cost,"
+				+ "eventDate,description, location, submissionTime)" + "VALUES (default,?,?,?,?,?,?,?,?)";
 
 		if (connection == null) {
 			connection = DAOConnectionUtilities.getConnection();
@@ -73,9 +74,12 @@ public class ReimbursementRequestsDAOImpl implements ReimbursementRequestsDAO {
 				pstmt.setInt(1, obj.getEmployeeId());
 				pstmt.setInt(2, obj.getEventTypeId());
 				pstmt.setInt(3, obj.getStatusId());
-				pstmt.setDate(4, obj.getEventDate());
-				pstmt.setString(0, obj.getDescription());
-				pstmt.setDate(0, obj.getSubmissionTime());
+				pstmt.setDouble(4, obj.getCost());
+				pstmt.setDate(5, obj.getEventDate());
+				pstmt.setString(6, obj.getDescription());
+				pstmt.setString(7, obj.getLacation());
+				pstmt.setTime(8, obj.getSubmissionTime());
+
 				int count = pstmt.executeUpdate();
 				rs = pstmt.getGeneratedKeys();
 				rs.next();
@@ -105,21 +109,134 @@ public class ReimbursementRequestsDAOImpl implements ReimbursementRequestsDAO {
 	}
 
 	@Override
-	public ReimbursementRequests getById(int reimbursementRequestId) {
+	public ReimbursementRequests getById(int requestId) {
 
-		return null;
+		ReimbursementRequests reimbursementRequest = new ReimbursementRequests();
+		Connection connection = null;
+		PreparedStatement pstmt = null;
+		int count = 0;
+		ResultSet rs = null;
+
+		String sql = "SELECT * FROM ReimbursementRequests where requestId=?";
+		if (connection == null) {
+			connection = DAOConnectionUtilities.getConnection();
+			try {
+				pstmt = connection.prepareStatement(sql);
+				pstmt.setInt(1, requestId);
+				rs = pstmt.executeQuery();
+
+				while (rs.next()) {
+					reimbursementRequest = parseResulset(rs);
+
+				}
+
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				if (pstmt != null)
+					try {
+
+						pstmt.close();
+						if (connection != null)
+							connection.close();
+					} catch (SQLException e) {
+
+						e.printStackTrace();
+					}
+
+			}
+
+		}
+		return reimbursementRequest;
 	}
 
 	@Override
 	public int update(ReimbursementRequests obj) {
-		return 0;
-		// TODO Auto-generated method stub
+
+		Connection connection = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int count = 0;
+
+		String sql = "UPDATE  ReimbursementRequests SET employeeId =?, eventTypeId =?,statusId =?,"
+				+ "eventCost =? eventDate =?,description =?,submissionTime =? WHERE RequestId =?";
+
+		if (connection == null) {
+			connection = DAOConnectionUtilities.getConnection();
+			try {
+				pstmt = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+				pstmt.setInt(1, obj.getEmployeeId());
+				pstmt.setInt(2, obj.getEventTypeId());
+				pstmt.setInt(3, obj.getStatusId());
+				pstmt.setDouble(4, obj.getCost());
+				pstmt.setDate(4, obj.getEventDate());
+				pstmt.setString(5, obj.getDescription());
+				pstmt.setTime(6, obj.getSubmissionTime());
+				pstmt.setString(7, obj.getLacation());
+				count = pstmt.executeUpdate();
+
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				if (pstmt != null)
+					try {
+						pstmt.close();
+						if (connection != null)
+							connection.close();
+					} catch (SQLException e) {
+
+						e.printStackTrace();
+					}
+
+			}
+
+		}
+
+		return count;
 
 	}
 
 	@Override
 	public void deleteteById(int id) {
-		// TODO Auto-generated method stub
+		Connection connection = null;
+		PreparedStatement pstmt = null;
+		int count = 0;
+
+		String sql = "DELETE FROM ReimbursementRequest where requestid =?; ";
+
+		if (connection == null) {
+			connection = DAOConnectionUtilities.getConnection();
+			try {
+				pstmt = connection.prepareStatement(sql);
+				pstmt.setInt(1, id);
+				count = pstmt.executeUpdate();
+				if (count != 1) {
+					System.out.println("Oops! Something went wrong with the update!");
+
+				} else
+					connection.setAutoCommit(false);
+				connection.commit();
+
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				if (pstmt != null)
+					try {
+
+						pstmt.close();
+						if (connection != null)
+							connection.close();
+					} catch (SQLException e) {
+
+						e.printStackTrace();
+					}
+
+			}
+
+		}
 
 	}
 
