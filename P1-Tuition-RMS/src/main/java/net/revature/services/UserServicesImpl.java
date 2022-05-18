@@ -85,20 +85,13 @@ public class UserServicesImpl implements UserServices {
 
 	@Override
 	public Users registerUser(Users newUser) throws AlreadyExistException {
+      int employeeId = userdao.create(newUser);
+if (employeeId!=0){
+return newUser;}
+else{
+	throw new AlreadyExistException();
 
-		List<Users> usersList = userdao.getAll();
-		Users newuser = new Users();
-
-		for (Users p : usersList) {
-
-			if (newUser.getUserName() != p.getUserName()) {
-				userdao.create(newuser);
-			} else {
-				throw new AlreadyExistException();
-			}
-		}
-		return newuser;
-
+}
 	}
 
 	@Override

@@ -53,15 +53,15 @@ public class TRMSApplication {
 			});
 
 		});
-		EmployeesDAO empDao = DaoFactory.getEmpldao();
-
-		Users newuser = new Users();
-		newuser.setUserName("reno");
-		newuser.setPassWord("pass");
-		newuser.setEmployeeId(17);
-		userServ.registerUser(newuser);
-
-		System.out.println(newuser);
+//		EmployeesDAO empDao = DaoFactory.getEmpldao();
+//
+//		Users newuser = new Users();
+//		newuser.setUserName("reno");
+//		newuser.setPassWord("pass");
+//		newuser.setEmployeeId(17);
+//		userServ.registerUser(newuser);
+//
+//		System.out.println(newuser);
 
 //		try {
 //			userServ.registerUser(newuser);

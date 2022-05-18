@@ -59,23 +59,31 @@ public class UserDAOImpl implements UserDAO {
 		Connection connection = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		int count = 0;
+		int count=0;
+
 		List<Users> usersList = getAll();
 
-		String sql = "INSERT INTO users ( employeeid,firstName, lastName, userName, password)" + "VALUES (?,?,?,?,?)"
-				+ "select employeeid,firstName, lastName  from Employees where employeeid = ?";
+		String sql = "INSERT INTO users (emplyeeId, firstName, lastName, userName, password)" + "VALUES (?,?,?,?,?)"
+				;
 
 		if (connection == null) {
 			connection = DAOConnectionUtilities.getConnection();
 			try {
 				pstmt = connection.prepareStatement(sql);
-				pstmt.setInt(1, newuser.getEmployeeId());
-
+				pstmt.setInt(1,newuser.getEmployeeId());
 				pstmt.setString(2, newuser.getFirstName());
 				pstmt.setString(3, newuser.getLastName());
 				pstmt.setString(4, newuser.getUserName());
 				pstmt.setString(5, newuser.getPassWord());
-				count = pstmt.executeUpdate();
+				connection.setAutoCommit(false); // for ACID (transaction management)
+				 count = pstmt.executeUpdate();
+
+
+
+					// return the generated id:
+					// before we call resultSet.next(), it's basically pointing to nothing useful
+					// but moving that pointer allows us to get the information that we want
+
 
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
