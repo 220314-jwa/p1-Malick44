@@ -4,4 +4,9 @@ import net.revature.model.Users;
 
 public interface UserDAO extends GenericDAO<Users> {
 
+	public Users getByUserName(String userName);
+
+	@Override
+	public int create(Users user);
+
 }

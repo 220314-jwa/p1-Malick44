@@ -45,37 +45,37 @@ public class UserDAOImpl implements UserDAO {
 	private Users parseResulset(ResultSet rs) throws SQLException {
 		Users user = new Users();
 
-		user.setId(rs.getInt(1));
+		user.setEmployeeId(rs.getInt(1));
 		user.setFirstName(rs.getString(2));
 		user.setLastName(rs.getString(3));
 		user.setUserName(rs.getString(4));
+		user.setPassWord(rs.getString(5));
 
 		return user;
 	}
 
 	@Override
-	public int create(Users obj) {
+	public int create(Users newuser) {
 		Connection connection = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		int count = 0;
+		List<Users> usersList = getAll();
 
-		String sql = "INSERT INTO users (userid, firstName, lastName, userName)" + "VALUES (default,?,?,?)";
+		String sql = "INSERT INTO users ( employeeid,firstName, lastName, userName, password)" + "VALUES (?,?,?,?,?)"
+				+ "select employeeid,firstName, lastName  from Employees where employeeid = ?";
 
 		if (connection == null) {
 			connection = DAOConnectionUtilities.getConnection();
 			try {
-				pstmt = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+				pstmt = connection.prepareStatement(sql);
+				pstmt.setInt(1, newuser.getEmployeeId());
 
-				pstmt.setString(1, obj.getFirstName());
-				pstmt.setString(2, obj.getLastName());
-				pstmt.setString(3, obj.getUserName());
-				pstmt.setString(4, obj.getPassWord());
+				pstmt.setString(2, newuser.getFirstName());
+				pstmt.setString(3, newuser.getLastName());
+				pstmt.setString(4, newuser.getUserName());
+				pstmt.setString(5, newuser.getPassWord());
 				count = pstmt.executeUpdate();
-				rs = pstmt.getGeneratedKeys();
-				rs.next();
-				int userid = rs.getInt(1);
-				obj.setId(userid);
 
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -101,19 +101,141 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public Users getById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		Users user = DaoFactory.getUser();
+		Connection connection = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = "SELECT * FROM users WHERE  employeeId =?";
+
+		try {
+			connection = DAOConnectionUtilities.getConnection();
+			pstmt = connection.prepareStatement(sql);
+			pstmt.setInt(1, id);
+
+			rs = pstmt.executeQuery();
+			// execute query
+			// get resultSet from query and parse to object
+			while (rs.next()) {
+				user = parseResulset(rs);
+			}
+		}
+
+		catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return user;
+	}
+
+	@Override
+	public Users getByUserName(String userName) {
+		Users user = DaoFactory.getUser();
+		Connection connection = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = "SELECT * FROM users WHERE  username =?";
+
+		try {
+			connection = DAOConnectionUtilities.getConnection();
+			pstmt = connection.prepareStatement(sql);
+			pstmt.setString(1, userName);
+
+			rs = pstmt.executeQuery();
+			// execute query
+			// get resultSet from query and parse to object
+			while (rs.next()) {
+				user = parseResulset(rs);
+			}
+		}
+
+		catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return user;
 	}
 
 	@Override
 	public int update(Users obj) {
-		// TODO Auto-generated method stub
-		return 0;
+		Connection connection = null;
+		PreparedStatement pstmt = null;
+		int count = 0;
+
+		String sql = "update users set employeeId =?, firstName =?, lastName =? where userName =?)";
+
+		if (connection == null) {
+			connection = DAOConnectionUtilities.getConnection();
+			try {
+				pstmt = connection.prepareStatement(sql);
+				pstmt.setInt(1, obj.getEmployeeId());
+				pstmt.setString(2, obj.getFirstName());
+				pstmt.setString(3, obj.getLastName());
+				pstmt.setString(4, obj.getUserName());
+
+				count = pstmt.executeUpdate();
+
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				if (pstmt != null)
+					try {
+						pstmt.close();
+						if (connection != null)
+							connection.close();
+					} catch (SQLException e) {
+
+						e.printStackTrace();
+					}
+
+			}
+
+		}
+
+		return count;
 	}
 
 	@Override
 	public void deleteteById(int id) {
-		// TODO Auto-generated method stub
+		Connection connection = null;
+		PreparedStatement pstmt = null;
+		int count = 0;
+
+		String sql = "DELETE FROM Users where employeeId =?; ";
+
+		if (connection == null) {
+			connection = DAOConnectionUtilities.getConnection();
+			try {
+				pstmt = connection.prepareStatement(sql);
+				pstmt.setInt(1, id);
+				count = pstmt.executeUpdate();
+				if (count != 1) {
+					System.out.println("Oops! Something went wrong with the update!");
+
+				} else
+					connection.setAutoCommit(false);
+				connection.commit();
+
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				if (pstmt != null)
+					try {
+
+						pstmt.close();
+						if (connection != null)
+							connection.close();
+					} catch (SQLException e) {
+
+						e.printStackTrace();
+					}
+
+			}
+
+		}
 
 	}
 

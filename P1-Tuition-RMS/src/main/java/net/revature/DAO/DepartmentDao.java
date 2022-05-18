@@ -23,8 +23,4 @@ public interface DepartmentDAO extends GenericDAO<Department> {
 	@Override
 	public void deleteteById(int id);
 
-	public Department getEmployeeById(int id);
-
-	public int createEmployee(Department obj);
-
 }

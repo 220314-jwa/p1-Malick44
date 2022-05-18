@@ -1,14 +1,16 @@
 package net.revature.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import net.revature.DAO.DaoFactory;
 import net.revature.DAO.ReimbursementRequestsDAO;
+import net.revature.DAO.ReimbursementRequestsDAOImpl;
+import net.revature.DAO.RequestStatusDAO;
 import net.revature.DAO.UserDAO;
+import net.revature.exceptions.AlreadyExistException;
 import net.revature.exceptions.EmployeeDoesnotExistException;
 import net.revature.exceptions.IncorrectCredentialsException;
-import net.revature.exceptions.UserNameAlredyExistException;
-import net.revature.model.Employees;
 import net.revature.model.ReimbursementRequests;
 import net.revature.model.RequestStatus;
 import net.revature.model.Users;
@@ -18,58 +20,115 @@ public class UserServicesImpl implements UserServices {
 	private UserDAO userdao = DaoFactory.getUserDAO();
 	private ReimbursementRequestsDAO rDao = DaoFactory.getReimbRequestDao();
 
+	private RequestStatusDAO statustDao = DaoFactory.getStatusDoa();
+
 	@Override
-	public int login(String userName, String passWord) throws IncorrectCredentialsException {
+	public Users login(String userName, String passWord) throws IncorrectCredentialsException {
 
-		Users newuser = Users.getUser(userName);
+		Users user = userdao.getByUserName(userName);
 
-		if (userName != null && newuser.getPassWord().equals(passWord)) {
-			newuser.setLoggedIn(true);
-			return 1;
-		} else
+		if (userName != null && user.getPassWord().equals(passWord)) {
+
+			user.setLoggedIn(true);
+			return user;
+		} else {
+
 			throw new IncorrectCredentialsException();
 
-	}
-
-	@Override
-	public void setApproval(int requestId) {
+		}
 
 	}
 
 	@Override
-	public RequestStatus checkReimbursementRequestsStatus(int requestid) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public RequestStatus setApproval(int requestId) {
+		// approve conditions:
+		// the cost must be less $3000;
+		// submit date must must be valid
+		ReimbursementRequestsDAO rDao = DaoFactory.getReimbRequestDao();
+		RequestStatusDAO statustDao = DaoFactory.getStatusDoa();
+		ReimbursementRequests reimbReq = rDao.getById(requestId);
+		RequestStatus newStatus = statustDao.getById(requestId);
 
-	@Override
-	public int submitReimbursenentRequest(Employees empObj, ReimbursementRequests requestObj)
-			throws EmployeeDoesnotExistException {
-
-		if (empObj.getEmployeeId() != requestObj.getEmployeeId()) {
-			throw new EmployeeDoesnotExistException();
-
+		if (reimbReq.getCost() > 3000 && reimbReq.getEventDate() == null) {
+			newStatus.setStatusId(1);
+			newStatus.setStatus("Approved");
+			reimbReq.setStatusId(1);
+			statustDao.create(newStatus);
+			return null;
 		} else
+
+			return newStatus;
+	}
+
+	@Override
+	public RequestStatus getStatusById(int requestId) {
+
+		RequestStatus newStatus = statustDao.getById(requestId);
+
+		return newStatus;
+	}
+
+	@Override
+	public int submitRequest(ReimbursementRequests requestObj) throws EmployeeDoesnotExistException {
+
+		if (requestObj.getEmployeeId() != 0) {
+
 			rDao.create(requestObj);
 
-		return 0;
+		} else {
+			throw new EmployeeDoesnotExistException();
+		}
+
+		return requestObj.getEmployeeId();
 
 	}
 
 	@Override
-	public int registerUser(Users newUser) throws UserNameAlredyExistException {
-		if (newUser.getUserName() != null) {
-			throw new UserNameAlredyExistException();
-		} else
-			userdao.create(newUser);
+	public Users registerUser(Users newUser) throws AlreadyExistException {
 
-		return 1;
+		List<Users> usersList = userdao.getAll();
+		Users newuser = new Users();
+
+		for (Users p : usersList) {
+
+			if (newUser.getUserName() != p.getUserName()) {
+				userdao.create(newuser);
+			} else {
+				throw new AlreadyExistException();
+			}
+		}
+		return newuser;
+
 	}
 
 	@Override
-	public List<Users> getAllUsers() {
+	public List<ReimbursementRequests> getAllRequests() {
 
-		return null;
+		List<ReimbursementRequests> requestList = new ArrayList();
+
+		ReimbursementRequestsDAO rDao = new ReimbursementRequestsDAOImpl();
+
+		requestList = rDao.getAll();
+
+		return requestList;
+
 	}
+
+	@Override
+	public Users getUserById(int id) {
+		Users newUser = new Users();
+		newUser = userdao.getById(id);
+		return newUser;
+	}
+
+//	@Override
+//	public int registerUser(Users newUser) throws UserNameAlredyExistException {
+//		if (newUser.getUserName() != null) {
+//			throw new UserNameAlredyExistException();
+//		} else
+//			userdao.create(newUser);
+//
+//		return 1;
+//	}
 
 }

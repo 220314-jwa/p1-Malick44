@@ -2,21 +2,21 @@ package net.revature.DAO;
 
 import java.util.List;
 
-import javax.swing.event.DocumentEvent.EventType;
+import net.revature.model.EventTypes;
 
-public interface EventTypeDAO extends GenericDAO<EventType> {
-
-	@Override
-	public List<EventType> getAll();
+public interface EventTypeDAO extends GenericDAO<EventTypes> {
 
 	@Override
-	public int create(EventType obj);
+	public List<EventTypes> getAll();
 
 	@Override
-	public EventType getById(int id);
+	public int create(EventTypes obj);
 
 	@Override
-	public int update(EventType obj);
+	public EventTypes getById(int id);
+
+	@Override
+	public int update(EventTypes obj);
 
 	@Override
 	public void deleteteById(int id);
