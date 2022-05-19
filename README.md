@@ -6,12 +6,12 @@ Tuition Reimbursement Management System is an application which allows employees
 
 ## Software Setup
 
-. Data stored and retrieved from  PostgreSQL database.
-. Data access performed using JDBC DAOs.
-. HTTP handling in Java done using Javalin.
-. Service layers unit test using JUnit and Mockito.
-. Front written using HTML, CSS, and JavaScript 
-. Login feature  have automation test written using Selenium.
+1. Data stored and retrieved from  PostgreSQL database.
+2. Data access performed using JDBC DAOs.
+3. HTTP handling in Java done using Javalin.
+4. Service layers unit test using JUnit and Mockito.
+5. Front written using HTML, CSS, and JavaScript 
+6. Login feature  have automation test written using Selenium.
 
 
 ## Usage
