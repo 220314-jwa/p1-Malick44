@@ -6,22 +6,22 @@ Tuition Reimbursement Management System is an application which allows employees
 
 ## Software Setup
 
-. Data stored and retrieved from  PostgreSQL database.
-. Data access performed using JDBC DAOs.
-. HTTP handling in Java done using Javalin.
-. Service layers unit test using JUnit and Mockito.
-. Front written using HTML, CSS, and JavaScript 
-. Login feature  have automation test written using Selenium.
+1. Data stored and retrieved from  PostgreSQL database.
+2. Data access performed using JDBC DAOs.
+3. HTTP handling in Java done using Javalin.
+4. Service layers unit test using JUnit and Mockito.
+5. Front written using HTML, CSS, and JavaScript 
+6. Login feature  have automation test written using Selenium.
 
 
 ## Usage
-. Maven
-. Java 11 
-. Preferrably an IDE like STS/Eclipse, IntelliJ
-. Data base name P1-TRMS
+1. Maven
+2. Java 11 
+3. Preferrably an IDE like STS/Eclipse, IntelliJ
+4. Data base name P1-TRMS
 
 
 ## Contributors
-Malick Ouedraogo
-Sierra Nicholes
+1. Malick Ouedraogo
+2. Sierra Nicholes
 
