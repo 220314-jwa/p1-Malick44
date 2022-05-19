@@ -15,13 +15,13 @@ Tuition Reimbursement Management System is an application which allows employees
 
 
 ## Usage
-. Maven
-. Java 11 
-. Preferrably an IDE like STS/Eclipse, IntelliJ
-. Data base name P1-TRMS
+1. Maven
+2. Java 11 
+3. Preferrably an IDE like STS/Eclipse, IntelliJ
+4. Data base name P1-TRMS
 
 
 ## Contributors
-.Malick Ouedraogo
-.Sierra Nicholes
+1. Malick Ouedraogo
+2. Sierra Nicholes
 
