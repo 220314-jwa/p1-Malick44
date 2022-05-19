@@ -22,6 +22,6 @@ Tuition Reimbursement Management System is an application which allows employees
 
 
 ## Contributors
-Malick Ouedraogo
-Sierra Nicholes
+.Malick Ouedraogo
+.Sierra Nicholes
 
