@@ -13,6 +13,12 @@ public class Department {
 		departmentName = null;
 
 	}
+	public Department(int departmentId, String departmentName, int departmentHeadId){
+		this.departmentId= departmentId;
+		this.departmentName= departmentName;
+		this.departmentHeadId= departmentHeadId;
+
+	}
 
 	public int getDepartmentId() {
 		return departmentId;
