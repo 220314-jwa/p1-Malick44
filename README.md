@@ -21,11 +21,11 @@ Tuition Reimbursement Management System is an application which allows employees
 4. Set Data base using database property file
 
 ## Completed Features 
-Ends points 
-Unit Testing(Junit)
-PostgreSQL database connection
-User Services and Implementation
-Data access using JDBC DAOs
+- Ends points 
+- Unit Testing(Junit)
+- PostgreSQL database connection
+- User Services and Implementation
+- Data access using JDBC DAOs
 
 ## Contributors
 1. Malick Ouedraogo
