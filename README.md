@@ -18,7 +18,7 @@ Tuition Reimbursement Management System is an application which allows employees
 1. Clone Project 
 1. Open the cloned project as Maven project preferrably in an IDE like Eclipse, IntelliJ 
 2. Use Java 11 
-4. Set Data base using database property file
+4. Set Database using database property file
 
 ## Completed Features 
 - Ends points 
