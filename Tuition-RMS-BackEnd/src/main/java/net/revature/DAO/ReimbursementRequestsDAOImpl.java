@@ -110,8 +110,7 @@ public class ReimbursementRequestsDAOImpl implements ReimbursementRequestsDAO {
 
 	@Override
 	public ReimbursementRequests getById(int requestId) {
-
-		ReimbursementRequests reimbursementRequest = new ReimbursementRequests();
+		ReimbursementRequests reimbRequest = new ReimbursementRequests();
 		Connection connection = null;
 		PreparedStatement pstmt = null;
 		int count = 0;
@@ -126,7 +125,9 @@ public class ReimbursementRequestsDAOImpl implements ReimbursementRequestsDAO {
 				rs = pstmt.executeQuery();
 
 				while (rs.next()) {
-					reimbursementRequest = parseResulset(rs);
+
+					reimbRequest = parseResulset(rs);
+
 
 				}
 
@@ -148,7 +149,52 @@ public class ReimbursementRequestsDAOImpl implements ReimbursementRequestsDAO {
 			}
 
 		}
-		return reimbursementRequest;
+		return reimbRequest;
+	}
+
+	@Override
+	public List <ReimbursementRequests> getByEmployeeId(int employeeId) {
+
+		List <ReimbursementRequests> userRequests = new ArrayList<ReimbursementRequests>() ;
+		Connection connection = null;
+		PreparedStatement pstmt = null;
+		int count = 0;
+		ResultSet rs = null;
+
+		String sql = "SELECT * FROM ReimbursementRequests where employeeId=?";
+		if (connection == null) {
+			connection = DAOConnectionUtilities.getConnection();
+			try {
+				pstmt = connection.prepareStatement(sql);
+				pstmt.setInt(1, employeeId);
+				rs = pstmt.executeQuery();
+
+				while (rs.next()) {
+					ReimbursementRequests reimbRequest = parseResulset(rs);
+					reimbRequest = parseResulset(rs);
+					userRequests.add(reimbRequest);
+
+				}
+
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				if (pstmt != null)
+					try {
+
+						pstmt.close();
+						if (connection != null)
+							connection.close();
+					} catch (SQLException e) {
+
+						e.printStackTrace();
+					}
+
+			}
+
+		}
+		return userRequests;
 	}
 
 	@Override

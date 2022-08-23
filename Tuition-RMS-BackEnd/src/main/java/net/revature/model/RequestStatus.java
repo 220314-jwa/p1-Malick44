@@ -3,6 +3,7 @@ package net.revature.model;
 import java.util.Objects;
 
 public class RequestStatus {
+	private int employeeId;
 	private int requestId;
 	private int statusId;
 	private String status;
@@ -11,6 +12,16 @@ public class RequestStatus {
 		requestId = 0;
 		statusId = 0;
 		status = "";
+		employeeId=0;
+
+	}
+
+	public int getEmployeeId() {
+		return employeeId;
+	}
+
+	public void setEmployeeId(int employeeId) {
+		this.employeeId = employeeId;
 	}
 
 	public int getRequestId() {
@@ -38,25 +49,24 @@ public class RequestStatus {
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		RequestStatus that = (RequestStatus) o;
+
+		if (employeeId != that.employeeId) return false;
+		if (requestId != that.requestId) return false;
+		if (statusId != that.statusId) return false;
+		return status != null ? status.equals(that.status) : that.status == null;
+	}
+
+	@Override
 	public int hashCode() {
-		return Objects.hash(status, statusId);
+		int result = employeeId;
+		result = 31 * result + requestId;
+		result = 31 * result + statusId;
+		result = 31 * result + (status != null ? status.hashCode() : 0);
+		return result;
 	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		RequestStatus other = (RequestStatus) obj;
-		return Objects.equals(status, other.status) && statusId == other.statusId;
-	}
-
-	@Override
-	public String toString() {
-		return "RequestStatus [requestId=" + requestId + ", statusId=" + statusId + ", status=" + status + "]";
-	}
-
 }

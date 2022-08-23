@@ -46,6 +46,9 @@ public class TRMSApplication {
 				path("{id}", () -> {
 					get(UsersController::getById);
 				});
+				path("Requests", () ->{
+					get(UsersController::getStatusById);
+				});
 
 			});
 			path("auth", () -> {

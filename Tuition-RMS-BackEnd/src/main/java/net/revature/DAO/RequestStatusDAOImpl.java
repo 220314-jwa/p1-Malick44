@@ -83,19 +83,19 @@ public class RequestStatusDAOImpl implements RequestStatusDAO {
 	}
 
 	@Override
-	public RequestStatus getById(int requestId) {
+	public RequestStatus getById(int employeeId) {
 		RequestStatus requestStatus = new RequestStatus();
 		Connection connection = null;
 		PreparedStatement pstmt = null;
 		int count = 0;
 		ResultSet rs = null;
 
-		String sql = "SELECT * FROM RequestStatus where requestId=?";
+		String sql = "SELECT * FROM RequestStatus where employeeId=?";
 		if (connection == null) {
 			connection = DAOConnectionUtilities.getConnection();
 			try {
 				pstmt = connection.prepareStatement(sql);
-				pstmt.setInt(1, requestId);
+				pstmt.setInt(1, employeeId);
 				rs = pstmt.executeQuery();
 
 				while (rs.next()) {

@@ -1,8 +1,8 @@
 package net.revature.services;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.*;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,12 +27,12 @@ import net.revature.model.Users;
 class UserServicesImplTest {
 
 	@Mock // says that we want Mockito to create a mock version of this object
-	private UserDAO userDao = new UserDAOImpl();
+	private UserDAO userDao;
 	@Mock
-	private RequestStatusDAO statusDao = new RequestStatusDAOImpl();
+	private RequestStatusDAO statusDao;
 
 	@Mock
-	private ReimbursementRequestsDAO reimbReqDao = new ReimbursementRequestsDAOImpl();;
+	private ReimbursementRequestsDAO reimbReqDao;
 
 	// we need a field for the class we are testing
 	@InjectMocks //
@@ -48,9 +48,7 @@ class UserServicesImplTest {
 		mocker.setUserName(userName);
 		mocker.setPassWord(passWord);
 		when(userDao.getByUserName(userName)).thenReturn(mocker);
-
 		Users result = userServ.login(userName, passWord);
-
 		assertEquals(userName, result.getUserName());
 
 	}
@@ -65,9 +63,7 @@ class UserServicesImplTest {
 		mocker.setUserName(userName);
 		mocker.setPassWord(passWord);
 		when(userDao.getByUserName(userName)).thenReturn(null);
-
 		assertThrows(IncorrectCredentialsException.class, () -> {
-
 			userServ.login(userName, passWord);
 		});
 	}
@@ -85,17 +81,16 @@ class UserServicesImplTest {
 
 	@Test
 	void testSetApprovalsuccessfully() {
-
-		int requestId = 11;
 		ReimbursementRequests mocker = new ReimbursementRequests();
-		mocker.setRequestId(requestId);
-		mocker.setStatusId(1);
+		ReimbursementRequests expected = new ReimbursementRequests();
+		expected.setStatusId(1);
+		mocker.setRequestId(11);
+		mocker.setStatusId(0);
+		mocker.setEmployeeId(2);
+		mocker.setCost(324.00);
+		mocker.setEventTypeId(2);
+		 userServ.setApproval(11);
 
-		when(reimbReqDao.getById(requestId)).thenReturn(mocker);
-
-		RequestStatus newreq = userServ.setApproval(requestId);
-
-		assertEquals(1, newreq.getStatusId());
 
 	}
 
@@ -105,14 +100,14 @@ class UserServicesImplTest {
 		UserServices userServ = new UserServicesImpl();
 		Users mocker = new Users();
 		Users newuser = new Users();
-
-		when(userDao.create(newuser)).thenReturn(1);
-
 		newuser.setUserName("rama");
-
+		newuser.setEmployeeId(1);
+		when(userDao.create(newuser)).thenReturn(1);
 		Users result = userServ.registerUser(newuser);
+		verify(userDao,times(1)).create(newuser);
+		assertNotEquals(1,result.getEmployeeId());
 
-		assertEquals(result.getUserName(), mocker.getUserName());
+
 	}
 
 	@Test
@@ -135,15 +130,20 @@ class UserServicesImplTest {
 	void getstatusTestsucces() {
 
 		int resquestId = 24;
-
 		RequestStatus mocker = new RequestStatus();
+		RequestStatus tesReq = new RequestStatus();
+		tesReq.setStatus("approved");
+		tesReq.setRequestId(24);
+
 		mocker.setRequestId(resquestId);
+		mocker.setStatus("approved");
 
 		when(statusDao.getById(resquestId)).thenReturn(mocker);
 
-		userServ.getStatusById(resquestId);
+		RequestStatus result = userServ.getStatusById(resquestId);
+		verify(statusDao,times(1)).getById(resquestId);
 
-		assertEquals(24, mocker.getRequestId());
+		assertEquals("approved", result.getStatus());
 
 	}
 

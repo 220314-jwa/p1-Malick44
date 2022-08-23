@@ -13,7 +13,7 @@ public interface RequestStatusDAO extends GenericDAO<RequestStatus> {
 	public int create(RequestStatus obj);
 
 	@Override
-	public RequestStatus getById(int requestId);
+	public RequestStatus getById(int employeeId);
 
 	@Override
 	public int update(RequestStatus obj);

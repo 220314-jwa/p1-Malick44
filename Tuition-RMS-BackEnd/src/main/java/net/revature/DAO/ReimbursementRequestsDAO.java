@@ -13,7 +13,8 @@ public interface ReimbursementRequestsDAO extends GenericDAO<ReimbursementReques
 	public int create(ReimbursementRequests obj);// will create and save new reimbursement request into database
 
 	@Override
-	public ReimbursementRequests getById(int reimbursementRequestId); // get
+	public ReimbursementRequests getById(int reimbursementRequestId);
+	public List <ReimbursementRequests> getByEmployeeId(int employeeId);// get
 
 	@Override
 	public int update(ReimbursementRequests obj);

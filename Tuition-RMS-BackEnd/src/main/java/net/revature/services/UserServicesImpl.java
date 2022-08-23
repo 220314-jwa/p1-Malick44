@@ -40,24 +40,18 @@ public class UserServicesImpl implements UserServices {
 	}
 
 	@Override
-	public RequestStatus setApproval(int requestId) {
+	public void setApproval(int requestId) {
 		// approve conditions:
 		// the cost must be less $3000;
 		// submit date must must be valid
 		ReimbursementRequestsDAO rDao = DaoFactory.getReimbRequestDao();
-		RequestStatusDAO statustDao = DaoFactory.getStatusDoa();
 		ReimbursementRequests reimbReq = rDao.getById(requestId);
-		RequestStatus newStatus = statustDao.getById(requestId);
+		if (reimbReq.getCost() > 3000 || reimbReq.getEventDate() == null) {
 
-		if (reimbReq.getCost() > 3000 && reimbReq.getEventDate() == null) {
-			newStatus.setStatusId(1);
-			newStatus.setStatus("Approved");
-			reimbReq.setStatusId(1);
-			statustDao.create(newStatus);
-			return null;
-		} else
+			reimbReq.setStatusId(0);
 
-			return newStatus;
+		} else { reimbReq.setStatusId(1);}
+
 	}
 
 	@Override
@@ -106,6 +100,15 @@ else{
 		return requestList;
 
 	}
+
+	@Override
+	public List<ReimbursementRequests> getAllUserRequests(int employeeId) {
+			List<ReimbursementRequests> userRequests = new ArrayList<>();
+			userRequests= rDao.getByEmployeeId( employeeId);
+
+			return userRequests;
+	}
+
 
 	@Override
 	public Users getUserById(int id) {

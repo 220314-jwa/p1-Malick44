@@ -58,28 +58,30 @@ public class UserDAOImpl implements UserDAO {
 	public int create(Users newuser) {
 		Connection connection = null;
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		int count=0;
+		int generatedId= 0;
 
-		List<Users> usersList = getAll();
-
-		String sql = "INSERT INTO users (emplyeeId, firstName, lastName, userName, password)" + "VALUES (?,?,?,?,?)"
+		String sql = "INSERT INTO users (employeeId, firstName, lastName, userName, password)" + "VALUES (?,?,?,?,?)"
 				;
 
 		if (connection == null) {
 			connection = DAOConnectionUtilities.getConnection();
 			try {
-				pstmt = connection.prepareStatement(sql);
+				pstmt = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 				pstmt.setInt(1,newuser.getEmployeeId());
 				pstmt.setString(2, newuser.getFirstName());
 				pstmt.setString(3, newuser.getLastName());
 				pstmt.setString(4, newuser.getUserName());
 				pstmt.setString(5, newuser.getPassWord());
 				connection.setAutoCommit(false); // for ACID (transaction management)
-				 count = pstmt.executeUpdate();
+				 pstmt.executeUpdate();
+				ResultSet resultSet = pstmt.getGeneratedKeys();
 
-
-
+				if (resultSet.next()) {
+					generatedId = resultSet.getInt(1);
+					connection.commit();
+				} else {
+					connection.rollback();
+				}
 					// return the generated id:
 					// before we call resultSet.next(), it's basically pointing to nothing useful
 					// but moving that pointer allows us to get the information that we want
@@ -103,7 +105,7 @@ public class UserDAOImpl implements UserDAO {
 
 		}
 
-		return count;
+		return generatedId;
 
 	}
 

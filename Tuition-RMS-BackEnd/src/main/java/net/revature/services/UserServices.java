@@ -17,12 +17,13 @@ import net.revature.model.Users;
 public interface UserServices {
 
 	public List<ReimbursementRequests> getAllRequests();
+	public List<ReimbursementRequests> getAllUserRequests(int employeeId);
 
 	public Users registerUser(Users newUser) throws AlreadyExistException;
 
 	public Users login(String userName, String passWord) throws IncorrectCredentialsException;
 
-	public RequestStatus setApproval(int requestId);// method will can approve or reject
+	public void setApproval(int requestId);// method will can approve or reject
 
 	public RequestStatus getStatusById(int requestId);
 
