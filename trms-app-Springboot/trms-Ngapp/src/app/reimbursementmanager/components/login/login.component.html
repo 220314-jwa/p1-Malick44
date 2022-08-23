@@ -1,0 +1,16 @@
+<ng-container *ngIf="!loggedInUser">
+    <form (ngSubmit)="logIn()" [formGroup]="credentials">
+    <div>
+      
+        <label for="usernameInput">Username: </label>
+        <input formControlName="username" type="text" id="usernameInput">
+        <label for="passwordInput">Password: </label>
+        <input formControlName="password" type="password" id="passwordInput"> 
+        <button   id="logInBtn"  type="submit"
+        >
+        Sign In</button>
+       
+    </div>
+    </form>
+</ng-container>
+

@@ -1,0 +1,23 @@
+<mat-toolbar color="primary" class="mat-elevation-z10">
+  <button mat-button class="sidenav-toggle" (click)="toggleSidenav.emit()">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span > <a></a>TRMS-APP</span>
+
+  <div class="spacer"></div>
+
+  <a mat-button>Submit Request</a>
+ 
+  <div *ngIf="!loggedInUser; else logout">
+
+  <a mat-raised-button color="accent" href="trmsapp/login" >Login
+  </a></div>
+  <ng-template #logout>
+    <div  class="example-button-row">
+      {{"Howdy! "+ loggedInUser.firstName}}
+    <a mat-stroked-button (click)="logOut()">logOut
+    </a></div></ng-template>
+  
+  
+
+</mat-toolbar>
