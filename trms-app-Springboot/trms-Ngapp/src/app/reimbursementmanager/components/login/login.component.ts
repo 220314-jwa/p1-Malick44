@@ -3,6 +3,7 @@ import { Employee } from './../../models/employee';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { JsonPipe } from '@angular/common';
+import { outputAst } from '@angular/compiler';
 
 @Component({
   selector: 'app-login',
@@ -12,9 +13,10 @@ import { JsonPipe } from '@angular/common';
 export class LoginComponent implements OnInit {
    // custom even emitter
   @Output() loginOrLogout: EventEmitter<any> = new EventEmitter();
+  
+  
   constructor(private loginService:LoginService, private fb: FormBuilder) { }
   loggedInUser: Employee;
- 
   credentials: FormGroup;
   
  
@@ -23,16 +25,15 @@ export class LoginComponent implements OnInit {
     username:'',
     password:''
 
-    })
+    });
+    //this.getLoggedInUser();
   }
 
- async getLoggedInUser() {
-  this.loggedInUser= await this.loginService.checkLogin();
-  
-}
+
 async logIn(): Promise<void>{
-  this.loggedInUser= await this.loginService.login(this.credentials);
+  this.loggedInUser= await this.loginService.login(this.credentials.value);
   this.loginOrLogout.emit();
+  console.log(this.loggedInUser);
 }
 
 async logOut(): Promise<void>{
@@ -41,7 +42,7 @@ async logOut(): Promise<void>{
 
 }
 save(){
-  console.log('save: '+ JSON.stringify(this.credentials.value))
-  console.log(this.getLoggedInUser);
+ // console.log('save: '+ JSON.stringify(this.credentials.getRawValue))
+console.log(this.credentials.value);
 }
 }

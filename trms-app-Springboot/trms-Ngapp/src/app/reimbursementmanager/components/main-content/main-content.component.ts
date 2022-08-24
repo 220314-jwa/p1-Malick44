@@ -18,7 +18,10 @@ export class MainContentComponent implements OnInit {
   constructor(private loginService:LoginService,
               private route: ActivatedRoute,
               private requestsService:RequestsService) { }
-
+              
+async getLoggedInUser() {
+                this.loggedInUser= await this.loginService.checkLogin(); 
+              }
   ngOnInit(): void {
     this.route.params.subscribe(params =>{ 
       let requestId=params['requestId'];
@@ -35,11 +38,11 @@ this.requestsService.userRequests.subscribe(userRequests => {
 
 });
 
-      this.loggedInUser=this.loginService.loggedInUser;
+      
     })
 
     
-    
+    this.getLoggedInUser();
    
   }
 

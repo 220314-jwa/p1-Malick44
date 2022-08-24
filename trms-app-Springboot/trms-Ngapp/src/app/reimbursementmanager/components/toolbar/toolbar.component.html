@@ -9,12 +9,12 @@
   <a mat-button>Submit Request</a>
  
   <div *ngIf="!loggedInUser; else logout">
-
+  <a mat-button> {{loggedInUser}}</a>
   <a mat-raised-button color="accent" href="trmsapp/login" >Login
   </a></div>
   <ng-template #logout>
     <div  class="example-button-row">
-      {{"Howdy! "+ loggedInUser.firstName}}
+   {{loggedInUser.firstName}}
     <a mat-stroked-button (click)="logOut()">logOut
     </a></div></ng-template>
   

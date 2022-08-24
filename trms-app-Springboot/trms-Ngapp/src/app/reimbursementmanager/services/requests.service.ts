@@ -15,15 +15,12 @@ export class RequestsService {
 
   private requestStore: {userRequests: Request[]};
   private _requests: BehaviorSubject<Request[]>
-  loggedInUser:Employee;
-
- 
   constructor(private http: HttpClient,
               private empServ: EmployeeService,private loginService: LoginService) {
                 this.requestStore = { userRequests:[]};
                 this._requests = new BehaviorSubject<Request[]>([]);
-                this.loggedInUser= loginService.loggedInUser;
-                this.loggedInUser.employeeId=4;
+               
+               // this.loggedInUser.employeeId=4;
                
                
  
@@ -40,10 +37,10 @@ export class RequestsService {
   
 
    
-  loadRequests(){
-    let employeeId = this.loggedInUser.employeeId;
+  loadRequests(loggedInUser:Employee){
+   // let employeeId = loggedInUser.employeeId;
     const url= "http://localhost:8080/Requests/";
-    return this.http.get<Request[]>(url+employeeId)
+    return this.http.get<Request[]>(url+loggedInUser.employeeId)
     .subscribe(data =>{
       this.requestStore.userRequests=data;
       this._requests.next(Object.assign({}, this.requestStore).userRequests)

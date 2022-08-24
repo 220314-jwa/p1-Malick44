@@ -35,9 +35,8 @@ export class ToolbarComponent implements OnInit {
 
   ngOnInit(): void {
     this.getLoggedInUser();
-   
-   
-    
+    console.log(this.loggedInUser.lastName);
+    console.log("now");
   }
 
 }

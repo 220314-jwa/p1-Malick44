@@ -8,7 +8,7 @@ import { Injectable } from '@angular/core';
 export class LoginService {
   constructor(private http: HttpClient) { }
   url: string= "http://localhost:8080/Employees/";
-  loggedInUser:Employee= new Employee();
+  private loggedInUser:Employee;
   headers = {'Content-type':'application/json'};
   
 
@@ -18,17 +18,21 @@ let credentialJson= JSON.stringify(credentials);
  if(httpResp && httpResp.status===200){
   this.loggedInUser= await httpResp.json();
   sessionStorage.setItem('Auth-Token', this.loggedInUser.employeeId.toString());
+  console.log(sessionStorage.getItem('Auth-Token'));
+ 
  } 
 return this.loggedInUser;
   }
-async checkLogin(): Promise<Employee>{
- let userId = sessionStorage.getItem('Auth-Token')
-if(userId){ 
-  let httpResp = await fetch(this.url+'Employees/'+userId, {headers: this.headers});
-if (httpResp && httpResp.status===200)
-{
-  return await  httpResp.json()}
-} 
-return this.loggedInUser=null;
-} 
+
+async checkLogin(): Promise<any>{
+  let employeeId = sessionStorage.getItem('Auth-Token');
+
+    if(employeeId){
+      let httpResp= await fetch(this.url+employeeId,{headers: this.headers});
+        if(httpResp && httpResp.status===200){
+          return await httpResp.json();
+        }else {return null};
+    }
+}
+
 }

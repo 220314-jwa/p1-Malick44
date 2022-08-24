@@ -24,19 +24,24 @@ export class SidenavComponent implements OnInit {
   shouldRun = /(^|.)(stackblitz|webcontainer).(io|com)$/.test(window.location.host);
   loggedInUser:Employee;
   userRequests: Observable<Request[]>;
+  async getLoggedInUser() {
+    this.loggedInUser= await this.loginService.checkLogin();
+    
+  }
 
   ngOnInit(): void {
+    this.getLoggedInUser();
     this.breakpointObserver
     .observe([`(max-width: ${SMALL_WIDTH_BREAPOINT}PX)`])
     .subscribe((state:BreakpointState) => {
       this.isScreenSmall= state.matches;
     });
-    this.userRequests= this.requestsService.userRequests;
-    this.requestsService.loadRequests();
+    
+    this.requestsService.loadRequests(this.loggedInUser);
     this.userRequests.subscribe(data=>{console.log(data)},err=>{})
-    this.loggedInUser= this.loginService.loggedInUser;
     console.log(this.userRequests);
-   // console.log(this.loggedInUser);
+   //console.log(this.loggedInUser);
+ 
 
     
   }
