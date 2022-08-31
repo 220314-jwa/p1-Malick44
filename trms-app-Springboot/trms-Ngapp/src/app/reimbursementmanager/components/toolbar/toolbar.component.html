@@ -2,21 +2,27 @@
   <button mat-button class="sidenav-toggle" (click)="toggleSidenav.emit()">
     <mat-icon>menu</mat-icon>
   </button>
-  <span > <a></a>TRMS-APP</span>
+
+  <button (click)="logheck()" > <span > <a></a>TRMS-APP</span></button>
+ 
 
   <div class="spacer"></div>
 
-  <a mat-button>Submit Request</a>
- 
-  <div *ngIf="!loggedInUser; else logout">
-  <a mat-button> {{loggedInUser}}</a>
+  <button mat-button >Submit Request</button>
+  
+     <div *ngIf="!loggedInUser" >
   <a mat-raised-button color="accent" href="trmsapp/login" >Login
   </a></div>
-  <ng-template #logout>
-    <div  class="example-button-row">
-   {{loggedInUser.firstName}}
-    <a mat-stroked-button (click)="logOut()">logOut
-    </a></div></ng-template>
+      
+        <div *ngIf="loggedInuser$ |async as loggedInuser"  class="example-button-row" >
+      <a mat-raised-button color="accent" (click)="logOut()">Logout
+      </a></div>
+    
+
+  
+
+   
+ 
   
   
 

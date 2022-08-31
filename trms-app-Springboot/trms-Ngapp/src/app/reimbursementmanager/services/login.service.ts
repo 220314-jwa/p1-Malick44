@@ -1,38 +1,76 @@
 import { Employee } from './../models/employee';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable, throwError, catchError,tap, map } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
   constructor(private http: HttpClient) { }
-  url: string= "http://localhost:8080/Employees/";
-  private loggedInUser:Employee;
+  
+  loggedInUser:Employee;
   headers = {'Content-type':'application/json'};
+  //_loggedInUser:BehaviorSubject<Employee>;
+  url: string= "http://localhost:8080/Employees/";
   
 
-  async login(credentials:any): Promise<Employee> {
+async logIn(credentials:any): Promise<Employee> {
 let credentialJson= JSON.stringify(credentials);
  let httpResp= await fetch(this.url+"Auth", { method:'POST', body:credentialJson,headers:this.headers});
  if(httpResp && httpResp.status===200){
-  this.loggedInUser= await httpResp.json();
-  sessionStorage.setItem('Auth-Token', this.loggedInUser.employeeId.toString());
-  console.log(sessionStorage.getItem('Auth-Token'));
- 
- } 
-return this.loggedInUser;
+  let emp= await httpResp.json();
+  sessionStorage.setItem('Auth-Token', emp.employeeId.toString());
+
+ return emp;
+ } else
+ return null;
+
   }
+  id:any= sessionStorage.getItem('Auth-Token')
+  
+  
 
-async checkLogin(): Promise<any>{
-  let employeeId = sessionStorage.getItem('Auth-Token');
+// async checkLogin(): Promise<Employee>{
+//   let id= <number><unknown>sessionStorage.getItem('Auth-Token')
+//       let httpResp= await fetch(this.url,{method:'get',headers: this.headers});
+//         if(httpResp && httpResp.status===200){
+          
+//           return await httpResp.json();
+//         }else 
+//         return null;
+    
 
-    if(employeeId){
-      let httpResp= await fetch(this.url+employeeId,{headers: this.headers});
-        if(httpResp && httpResp.status===200){
-          return await httpResp.json();
-        }else {return null};
-    }
+//    //return this.loggedInUser;
+// }
+
+
+
+loggedInuser$ = this.http.get<Employee>(this.url+this.id).pipe(
+  tap(data => console.log('employee',JSON.stringify(data))),
+  catchError(this.handleError)
+)
+// isLogged():Promise<void>{
+
+//   let _userToken= sessionStorage.getItem('Auth-Token');
+//   console.log(_userToken);
+//   let result:boolean= true;
+//   return null;
+// }
+private handleError(err: HttpErrorResponse): Observable<never> {
+  // in a real world app, we may send the server to some remote logging infrastructure
+  // instead of just logging it to the console
+  let errorMessage: string;
+  if (err.error instanceof ErrorEvent) {
+    // A client-side or network error occurred. Handle it accordingly.
+    errorMessage = `An error occurred: ${err.error.message}`;
+  } else {
+    // The backend returned an unsuccessful response code.
+    // The response body may contain clues as to what went wrong,
+    errorMessage = `Backend returned code ${err.status}: ${err.message}`;
+  }
+  console.error(errorMessage.search);
+  return throwError(() => errorMessage);
 }
-
 }

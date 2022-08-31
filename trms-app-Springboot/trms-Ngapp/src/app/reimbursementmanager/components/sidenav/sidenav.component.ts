@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { Observable, catchError, EMPTY, tap } from 'rxjs';
 import { RequestsService } from './../../services/requests.service';
 import { LoginService } from './../../services/login.service';
 import { Employee } from './../../models/employee';
@@ -22,28 +22,40 @@ export class SidenavComponent implements OnInit {
 
   public isScreenSmall: boolean=false;
   shouldRun = /(^|.)(stackblitz|webcontainer).(io|com)$/.test(window.location.host);
-  loggedInUser:Employee;
+  
   userRequests: Observable<Request[]>;
-  async getLoggedInUser() {
-    this.loggedInUser= await this.loginService.checkLogin();
-    
-  }
+  loggedIndUser:Employee;
+  errorMessage: string
+  
+  loggedInuser$= this.loginService.loggedInuser$
+  .pipe(
+    tap(
+      data =>{this.loggedIndUser=data}
+    ),
+   catchError( err =>{
+     this.errorMessage=err;
+     return EMPTY;
+   })
+  );
 
   ngOnInit(): void {
-    this.getLoggedInUser();
+   
+
+  
     this.breakpointObserver
     .observe([`(max-width: ${SMALL_WIDTH_BREAPOINT}PX)`])
     .subscribe((state:BreakpointState) => {
       this.isScreenSmall= state.matches;
     });
     
-    this.requestsService.loadRequests(this.loggedInUser);
-    this.userRequests.subscribe(data=>{console.log(data)},err=>{})
+    this.requestsService.loadRequests();
+    this.userRequests= this.requestsService.userRequests;
     console.log(this.userRequests);
-   //console.log(this.loggedInUser);
- 
-
-    
+    //this.loggedInUser= this.loginService.loggedInUser;
   }
+   // this.loginService._loggedInUser.subscribe(data =>{
+    //   this.loggedInUser=data;
+    // });
+    
 
 }

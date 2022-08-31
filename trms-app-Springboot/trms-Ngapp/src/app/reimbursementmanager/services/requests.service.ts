@@ -12,6 +12,7 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class RequestsService {
+  loggedInUser: Employee;
 
   private requestStore: {userRequests: Request[]};
   private _requests: BehaviorSubject<Request[]>
@@ -20,7 +21,7 @@ export class RequestsService {
                 this.requestStore = { userRequests:[]};
                 this._requests = new BehaviorSubject<Request[]>([]);
                
-               // this.loggedInUser.employeeId=4;
+              // this.loggedInUser.employeeId=4;
                
                
  
@@ -37,11 +38,12 @@ export class RequestsService {
   
 
    
-  loadRequests(loggedInUser:Employee){
-   // let employeeId = loggedInUser.employeeId;
-    const url= "http://localhost:8080/Requests/";
-    return this.http.get<Request[]>(url+loggedInUser.employeeId)
-    .subscribe(data =>{
+  loadRequests(){
+let employeeId = sessionStorage.getItem('Auth-Token');
+  let url= "http://localhost:8080/Requests/";
+    return this.http.get<Request[]>(url+employeeId)
+    .subscribe(
+      data =>{
       this.requestStore.userRequests=data;
       this._requests.next(Object.assign({}, this.requestStore).userRequests)
     }, (err)=>{console.log("Failed to load");}
