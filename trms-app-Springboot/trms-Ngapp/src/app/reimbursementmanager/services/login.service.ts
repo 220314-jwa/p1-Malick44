@@ -1,16 +1,20 @@
+import { Router } from '@angular/router';
 import { Employee } from './../models/employee';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, throwError, catchError,tap, map } from 'rxjs';
+import { BehaviorSubject, Observable, throwError, catchError, tap, map, EMPTY } from 'rxjs';
+import { ReturnStatement } from '@angular/compiler';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+              private routes:Router) { }
   
-  loggedInUser:Employee;
+  loggedInUser:Employee ;
+  errMessage:string;
   headers = {'Content-type':'application/json'};
   //_loggedInUser:BehaviorSubject<Employee>;
   url: string= "http://localhost:8080/Employees/";
@@ -21,16 +25,16 @@ let credentialJson= JSON.stringify(credentials);
  let httpResp= await fetch(this.url+"Auth", { method:'POST', body:credentialJson,headers:this.headers});
  if(httpResp && httpResp.status===200){
   let emp= await httpResp.json();
-  sessionStorage.setItem('Auth-Token', emp.employeeId.toString());
-
+  sessionStorage.setItem('Auth-Token', emp.employeeId.toString().trim());
+  //this.routes.navigate(['/trmsapp/'])
  return emp;
- } else
- return null;
+ } else return null;
+ 
 
   }
-  id:any= sessionStorage.getItem('Auth-Token')
-  
-  
+  //id:number= <number><unknown>sessionStorage.getItem('Auth-Token')
+ 
+
 
 // async checkLogin(): Promise<Employee>{
 //   let id= <number><unknown>sessionStorage.getItem('Auth-Token')
@@ -47,8 +51,9 @@ let credentialJson= JSON.stringify(credentials);
 
 
 
-loggedInuser$ = this.http.get<Employee>(this.url+this.id).pipe(
+loggedInuser$ = this.http.get<Employee>(this.url).pipe(
   tap(data => console.log('employee',JSON.stringify(data))),
+  //map( data => this.loggedInUser=data),
   catchError(this.handleError)
 )
 // isLogged():Promise<void>{
@@ -70,7 +75,7 @@ private handleError(err: HttpErrorResponse): Observable<never> {
     // The response body may contain clues as to what went wrong,
     errorMessage = `Backend returned code ${err.status}: ${err.message}`;
   }
-  console.error(errorMessage.search);
+  console.error(errorMessage);
   return throwError(() => errorMessage);
 }
 }

@@ -1,10 +1,11 @@
+import { Router, Routes } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { RequestsService } from './../../services/requests.service';
 import { LoginService } from './../../services/login.service';
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { Employee } from '../../models/employee';
 import { Request } from '../../models/requests';
-import { catchError, EMPTY, tap } from 'rxjs';
+import { catchError, EMPTY, map } from 'rxjs';
 
 @Component({
   selector: 'app-toolbar',
@@ -21,10 +22,11 @@ export class ToolbarComponent implements OnInit {
   constructor(private loginService:LoginService, 
     private requestsService: RequestsService,
      private http:HttpClient,
-     ) { }
-  loggedInUser:Employee;
- loggedInuser$= this.loginService.loggedInuser$
- .pipe(
+     private routes: Router     ) { }
+  //loggedInUser:Employee| undefined;
+loggedInUser= this.loginService.loggedInuser$
+ .pipe( 
+ map(data => this.loggedInUser=data),
   catchError( err =>{
     this.errorMessage=err;
     return EMPTY;
@@ -32,12 +34,10 @@ export class ToolbarComponent implements OnInit {
  );
 
   ngOnInit(): void {
- console.log(this.loggedInUser);
-    //this.loggedInUser= null;
+
   }
-  // async getLoggedInUser() {
-  //   this.loggedInUser = await this.loginService.checkLogin();
-  // }
+ 
+  
   logOut(): void {
    // console.log(this.loggedInUser)
     
@@ -47,11 +47,19 @@ export class ToolbarComponent implements OnInit {
     this.loginOrLogout.emit();
     console.log(sessionStorage.getItem('Auth-Token'))
     //console.log(this.loggedInUser)
+   this.routes.navigate(['/trmsapp'])
+    
+  }
+  logIn(): void{
+    //this.loggedInUser=null;
+    this.routes.navigate(['/trmsapp/login'])
   }
   logheck(): void {
    // this.loginService.checkLogin();
     //this.getLoggedInUser();
-    //console.log(this.loggedInUser)
+    console.log(this.loginService.loggedInuser$)
+    console.log(sessionStorage.getItem('Auth-Token'))
+   
     // firing the custom event
     this.loginOrLogout.emit();
     

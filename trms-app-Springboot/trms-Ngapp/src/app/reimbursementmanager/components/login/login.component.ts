@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { LoginService } from './../../services/login.service';
 import { Employee } from './../../models/employee';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
@@ -16,7 +17,9 @@ export class LoginComponent implements OnInit {
   
   
   
-  constructor(private loginService:LoginService, private fb: FormBuilder) { }
+  constructor(private loginService:LoginService, 
+    private fb: FormBuilder,
+    private routes: Router) { }
   loggedInUser: Employee;
   credentials: FormGroup;
   
@@ -42,6 +45,10 @@ async logIn(): Promise<void>{
   this.loginOrLogout.emit();
   //console.log(this.credentials.value)
   console.log(this.loggedInUser)
+  this.routes.navigate(['/trmsapp/'])
+  
+  
+
   
 }
 

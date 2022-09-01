@@ -9,16 +9,20 @@
   <div class="spacer"></div>
 
   <button mat-button >Submit Request</button>
+  <span > 
+  
+  </span>
   
      <div *ngIf="!loggedInUser" >
-  <a mat-raised-button color="accent" href="trmsapp/login" >Login
+  <a mat-raised-button color="accent" (click)="logIn()">Login
   </a></div>
       
-        <div *ngIf="loggedInuser$ |async as loggedInuser"  class="example-button-row" >
+      <div *ngIf="loggedInUser "  class="example-button-row" >
       <a mat-raised-button color="accent" (click)="logOut()">Logout
       </a></div>
+       
+       
     
-
   
 
    
