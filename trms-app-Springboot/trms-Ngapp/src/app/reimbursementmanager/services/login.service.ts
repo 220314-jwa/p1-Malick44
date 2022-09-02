@@ -27,27 +27,13 @@ let credentialJson= JSON.stringify(credentials);
   let emp= await httpResp.json();
   sessionStorage.setItem('Auth-Token', emp.employeeId.toString().trim());
   //this.routes.navigate(['/trmsapp/'])
+  this.loggedInUser =emp;
  return emp;
  } else return null;
  
 
   }
-  //id:number= <number><unknown>sessionStorage.getItem('Auth-Token')
  
-
-
-// async checkLogin(): Promise<Employee>{
-//   let id= <number><unknown>sessionStorage.getItem('Auth-Token')
-//       let httpResp= await fetch(this.url,{method:'get',headers: this.headers});
-//         if(httpResp && httpResp.status===200){
-          
-//           return await httpResp.json();
-//         }else 
-//         return null;
-    
-
-//    //return this.loggedInUser;
-// }
 
  id = <number><unknown>sessionStorage.getItem('Auth-Token')
 

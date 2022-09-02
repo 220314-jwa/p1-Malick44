@@ -37,13 +37,11 @@ export class LoginComponent implements OnInit {
   
   
 async logIn(): Promise<void>{
-  console.log(this.credentials.value)
   this.loggedInUser= await this.loginService.logIn(this.credentials.value);
-  this.loginOrLogout.emit();
   //console.log(this.credentials.value)
   console.log(this.loggedInUser)
   this.routes.navigate(['/trmsapp/'])
-  
+  this.loginOrLogout.emit();
 }
 
 async logOut(): Promise<void>{

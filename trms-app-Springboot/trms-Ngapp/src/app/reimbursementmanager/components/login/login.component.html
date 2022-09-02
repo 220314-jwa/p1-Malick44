@@ -1,6 +1,6 @@
 
 
-    <div class="card">
+    <div class="card" *ngIf="!loggedInUser">
     <div class="card-header">
             {{pageTitle}}
             <div > 
@@ -35,7 +35,6 @@
                 title="Cancel your edits"
                 (click)="logIn()">
           Sign In
-         
         </button> 
        <span  style="margin-left: 100px"
             fomt-color="blue">Need account? </span> 
@@ -80,7 +79,7 @@
    
 </table> 
   </form> -->
-</div>
+
 
 
 <!-- <ng-container *ngIf="!loggedInUser" >
