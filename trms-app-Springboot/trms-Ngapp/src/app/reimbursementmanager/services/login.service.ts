@@ -49,9 +49,9 @@ let credentialJson= JSON.stringify(credentials);
 //    //return this.loggedInUser;
 // }
 
+ id = <number><unknown>sessionStorage.getItem('Auth-Token')
 
-
-loggedInuser$ = this.http.get<Employee>(this.url).pipe(
+loggedInuser$ = this.http.get<Employee>(this.url+this.id).pipe(
   tap(data => console.log('employee',JSON.stringify(data))),
   //map( data => this.loggedInUser=data),
   catchError(this.handleError)

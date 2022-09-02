@@ -12,16 +12,16 @@ import { outputAst } from '@angular/compiler';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+  pageTitle = 'Login'
    // custom even emitter
   @Output() loginOrLogout: EventEmitter<any> = new EventEmitter();
-  
-  
   
   constructor(private loginService:LoginService, 
     private fb: FormBuilder,
     private routes: Router) { }
   loggedInUser: Employee;
   credentials: FormGroup;
+  error:string;
   
  
   ngOnInit(): void {
@@ -30,12 +30,9 @@ export class LoginComponent implements OnInit {
     password:''
   
     });
-
    //this.getLoggedInUser();
-
-    
-    
     //this.loggedInUser= this.loginService.checkLogin()
+    this.error= "   "
   }
   
   
@@ -47,11 +44,7 @@ async logIn(): Promise<void>{
   console.log(this.loggedInUser)
   this.routes.navigate(['/trmsapp/'])
   
-  
-
-  
 }
-
 
 async logOut(): Promise<void>{
   sessionStorage.removeItem('Auth-Token');

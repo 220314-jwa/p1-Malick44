@@ -16,7 +16,7 @@ export class ToolbarComponent implements OnInit {
   @Output() toggleSidenav = new EventEmitter<void>();
   @Output() loginOrLogout: EventEmitter<any> = new EventEmitter();
   errorMessage: any;
-  
+ 
 
 
   constructor(private loginService:LoginService, 
@@ -24,9 +24,8 @@ export class ToolbarComponent implements OnInit {
      private http:HttpClient,
      private routes: Router     ) { }
   //loggedInUser:Employee| undefined;
-loggedInUser= this.loginService.loggedInuser$
+loggedInUser$= this.loginService.loggedInuser$
  .pipe( 
- map(data => this.loggedInUser=data),
   catchError( err =>{
     this.errorMessage=err;
     return EMPTY;
@@ -42,7 +41,6 @@ loggedInUser= this.loginService.loggedInuser$
    // console.log(this.loggedInUser)
     
     sessionStorage.removeItem('Auth-Token');
-    this.loggedInUser=null;
     // firing the custom event
     this.loginOrLogout.emit();
     console.log(sessionStorage.getItem('Auth-Token'))
@@ -54,10 +52,13 @@ loggedInUser= this.loginService.loggedInuser$
     //this.loggedInUser=null;
     this.routes.navigate(['/trmsapp/login'])
   }
+  register(): void{
+    this.routes.navigate(['/trmsapp/register'])
+  }
   logheck(): void {
    // this.loginService.checkLogin();
     //this.getLoggedInUser();
-    console.log(this.loginService.loggedInuser$)
+   
     console.log(sessionStorage.getItem('Auth-Token'))
    
     // firing the custom event

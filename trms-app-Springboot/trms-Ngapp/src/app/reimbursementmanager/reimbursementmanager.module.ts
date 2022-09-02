@@ -1,7 +1,7 @@
 import { LoginService } from './services/login.service';
 
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, registerLocaleData } from '@angular/common';
 import { ReimbursementmanagerAppComponent } from './reimbursementmanager-app.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
@@ -14,6 +14,8 @@ import { EmployeeService } from './services/employee.service';
 import { RequestsService } from './services/requests.service';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
+import { RegisterService } from './services/register.service';
 
 
 
@@ -21,7 +23,8 @@ const routes: Routes=[
   {path: '', component: ReimbursementmanagerAppComponent, 
   children:[
     {path:'requests/:requestId', component: MainContentComponent},
-    {path: 'login', component:LoginComponent}
+    {path: 'login', component:LoginComponent},
+    {path: 'register', component:RegisterComponent}
    
   ] },
 
@@ -35,6 +38,7 @@ const routes: Routes=[
     SidenavComponent,
     MainContentComponent,
     LoginComponent,
+    RegisterComponent,
 
   ],
   imports: [
@@ -46,6 +50,7 @@ const routes: Routes=[
     RouterModule.forChild(routes)
   ],
   providers:[EmployeeService,
-             RequestsService,LoginService]
+             RequestsService,LoginService,RegisterService]
+
 })
 export class ReimbursementmanagerModule { }

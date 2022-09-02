@@ -8,7 +8,6 @@ export interface Employee {
     departmentId?: number;
     username: string;
     password:String;
-    requests?: Request[];
    
 }
 

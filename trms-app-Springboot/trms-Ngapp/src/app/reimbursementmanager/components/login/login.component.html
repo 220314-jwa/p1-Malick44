@@ -1,4 +1,89 @@
-<ng-container *ngIf="!loggedInUser" >
+
+
+    <div class="card">
+    <div class="card-header">
+            {{pageTitle}}
+            <div > 
+                <p *ngIf="error" class="error">
+        {{ error }}</p>
+         </div>
+         
+     </div>
+      <div class="card-body">
+        <form (ngSubmit)="logIn()" [formGroup]="credentials">
+
+          <div class="form-group row mb-2">
+            <label class="col-md-2 col-form-label"
+             for="productNameId">Username</label>
+             <div class=" col-md-8">
+            <input class="form-control" formControlName="username" type="text" id="usernameInput"/>
+             </div>
+          </div>
+        
+          <div class="form-group row mb-2">
+            <label class="col-md-2 col-form-label"
+             for="productNameId">Password</label>
+             <div class=" col-md-8">
+            <input class="form-control" formControlName="password" type="text" id="usernameInput"/>
+             </div>
+          </div>
+        
+       
+        <button class="btn btn-outline-primary mr-3"
+                style="width:80px;"
+                type="submit"
+                title="Cancel your edits"
+                (click)="logIn()">
+          Sign In
+         
+        </button> 
+       <span  style="margin-left: 100px"
+            fomt-color="blue">Need account? </span> 
+       
+        <button class="btn btn-outline-warning"
+                style="width:80px" 
+                style="margin-left: 10px"
+                type="button"
+                title="Delete this product"
+                [routerLink]="['/products']"
+               >
+          Register
+        </button>
+        </form>
+
+      </div>
+     
+    
+   <!-- <form class="example-form">
+    <p>
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Username</mat-label>
+          <textarea matInput placeholder="Username" formControlName="username" type="text" id="usernameInput" ></textarea>
+        </mat-form-field>
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Password</mat-label>
+          <input matInput formControlName="password" type="password" id="passwordInput"> 
+        </mat-form-field>
+      </p>
+    
+    <table class="example-full-width" cellspacing="0">
+        <tr>
+      <td>
+          <div class="button">
+            <button type="submit" mat-button>Login</button>
+          </div>
+      <td>
+        <div class="button">
+            <button type="submit" mat-button>Register</button>
+          </div>
+    </tr>
+   
+</table> 
+  </form> -->
+</div>
+
+
+<!-- <ng-container *ngIf="!loggedInUser" >
     <form (ngSubmit)="logIn()" [formGroup]="credentials">
     <div class="col-md-2 col-form-label">
       
@@ -12,5 +97,5 @@
        
     </div>
     </form>
-</ng-container>
+</ng-container> -->
 

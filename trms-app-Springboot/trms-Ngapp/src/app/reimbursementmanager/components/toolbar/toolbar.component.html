@@ -3,21 +3,27 @@
     <mat-icon>menu</mat-icon>
   </button>
 
-  <button (click)="logheck()" > <span > <a></a>TRMS-APP</span></button>
+  <button (click)="logheck()" > <span > TRMS-APP</span></button>
  
 
   <div class="spacer"></div>
-
+<div *ngIf="loggedInUser$|async as loggedInUser" >
   <button mat-button >Submit Request</button>
+</div>
+  
+
+ <div >
+  <button mat-button (click)="register()">Register</button>
+ </div>
+ 
   <span > 
   
   </span>
   
-     <div *ngIf="!loggedInUser" >
+     <div *ngIf="loggedInUser$" >
   <a mat-raised-button color="accent" (click)="logIn()">Login
   </a></div>
-      
-      <div *ngIf="loggedInUser "  class="example-button-row" >
+      <div *ngIf="loggedInUser$"  class="example-button-row" >
       <a mat-raised-button color="accent" (click)="logOut()">Logout
       </a></div>
        
