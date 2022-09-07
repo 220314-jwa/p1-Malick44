@@ -11,6 +11,7 @@ export class EmployeeService {
   private dataStore:{
     employees:Employee[]
   }
+  
   loggedInUser :Employee;
 
   constructor(private http: HttpClient, private loginService:LoginService) {

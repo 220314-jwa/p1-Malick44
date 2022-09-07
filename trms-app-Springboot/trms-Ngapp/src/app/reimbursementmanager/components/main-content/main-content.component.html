@@ -1,34 +1,109 @@
-
-
-<div *ngIf="!userRequest">
-    <mat-spinner></mat-spinner>
-</div >
-
-
-<div *ngIf="userRequest ">
-    <mat-card>
-        <mat-card-header>
-          <mat-card-title>{{ userRequest.description }}</mat-card-title>
-          <mat-card-subtitle>
-            Event Date {{ userRequest.eventDate| date: 'd LLLL'}}
-          </mat-card-subtitle>
-          
-        </mat-card-header>
-        <mat-card-content>
-          <mat-tab-group>
-            <mat-tab label="cost">
-              <p>
-                {{userRequest.cost}}
-              </p>
-            </mat-tab>
-            <mat-tab label="Location">
-                <p>
-                  {{userRequest.location}}
-                </p>
-              </mat-tab>
+<div class="card">
+  <div class="card-header">
+      {{pageTitle}}
+   <div>
+      <p *ngIf="errorMessage" class="alert-danger">
+        {{errorMessage}}  </p>
+      
+   </div>
+  </div>
+      <div class="card-body">
+          <form (ngSubmit)="saveRequest()"[formGroup]="addRequestForm">
+              <div class="form-group row mb-2">
+                  <label class="col-md-2 col-form-label"
+                   for="employeeId">EmployeeId</label>
+                   <div class=" col-md-8">
+                  <input class="form-control"
+                   formControlName="employeeId" 
+                   type="number" id="employeeIdInput"/>
+                   <span class="invalid-feedback">
+                      EmployeeId reqired
+                    </span>
+                   </div>
+                </div>
               
-            <!-- <mat-tab label="Notes"></mat-tab> -->
-          </mat-tab-group>
-        </mat-card-content>
-      </mat-card>
-</div>
+
+               <div class="form-group row mb-2">
+                  <label class="col-md-2 col-form-label"
+                   for="requestId">RequestId</label>
+                  <div class=" col-md-8">
+                  <input class="form-control"
+                   formControlName="requestId" 
+                   type="number"
+                    id="requestIdInput"/>
+                   </div>
+               </div>
+                <div class="form-group row mb-2">
+                  <label class="col-md-2 col-form-label"
+                   for="eventTypeId">EventTypeId</label>
+                   <div class=" col-md-8">
+                  <input class="form-control"
+                   formControlName="eventTypeId" 
+                   type="number" id="eventTypeIdInput"/>
+                   </div>
+                </div>
+  
+                <div class="form-group row mb-2">
+                  <label class="col-md-2 col-form-label"
+                   for="cost">Cost</label>
+                   <div class=" col-md-8">
+                  <input class="form-control"
+                   formControlName="cost"
+                   type="number" 
+                   id="costInput"/>
+                   </div>
+                </div>
+
+                <div class="form-group row mb-2">
+                  <label class="col-md-2 col-form-label"
+                   for="eventDate">EventDate</label>
+                   <div class=" col-md-8">
+                  <input class="form-control"
+                   formControlName="eventDate"
+                   type="text" 
+                   id="eventDateInput"/>
+                   </div>
+                </div>
+
+                <div class="form-group row mb-2">
+                  <label class="col-md-2 col-form-label"
+                   for="location">Location</label>
+                   <div class=" col-md-8">
+                  
+                  <input class="form-control"
+                   formControlName="location" 
+                  type="text" id="locationIdInput"/>
+                   </div>
+                </div>
+               
+     
+                <div class="form-group row mb-2">
+                  <label class="col-md-2 col-form-label"
+                   for="description">Description</label>
+                   <div class=" col-md-8">
+                      <textarea  class="form-control"
+                      formControlName="description"
+                      type="text"
+                      id="descriptionInput"></textarea>
+                  
+                   </div>
+                </div>
+  
+                <button class="btn btn-outline-primary mr-3"
+              style="width:100px;"
+              type="submit"
+              title="Submit"
+             >
+        Submit
+      </button> 
+              
+  
+              
+                
+          
+
+  
+          </form>
+  
+      </div>
+  </div>

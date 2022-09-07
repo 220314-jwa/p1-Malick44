@@ -40,8 +40,8 @@ async logIn(): Promise<void>{
   this.loggedInUser= await this.loginService.logIn(this.credentials.value);
   //console.log(this.credentials.value)
   console.log(this.loggedInUser)
-  this.routes.navigate(['/trmsapp/'])
   this.loginOrLogout.emit();
+  this.routes.navigate(['/trmsapp/requests/1'])
 }
 
 async logOut(): Promise<void>{
@@ -49,10 +49,17 @@ async logOut(): Promise<void>{
   this.loggedInUser=null;
   this.loginOrLogout.emit();
 
+  
+
 }
 
 save(){
  // console.log('save: '+ JSON.stringify(this.credentials.getRawValue))
 console.log(this.credentials.value);
+}
+
+register(){
+  this.routes.navigate(['/trmsapp/register'])
+
 }
 }

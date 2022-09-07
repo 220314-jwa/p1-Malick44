@@ -4,26 +4,26 @@
   </button>
 
   <button (click)="logheck()" > <span > TRMS-APP</span></button>
- 
+  
 
   <div class="spacer"></div>
-<div *ngIf="loggedInUser$|async as loggedInUser" >
+<div [routerLink]="'/trmsapp/submitRquest'">
   <button mat-button >Submit Request</button>
 </div>
   
 
- <div >
+ <div *ngIf="!user$">
   <button mat-button (click)="register()">Register</button>
  </div>
  
-  <span > 
-  
-  </span>
-  
-     <div *ngIf="loggedInUser$" >
+  <!-- <div *ngIf="loggedInUser$|async as user"> 
+ <span *ngIf="user"> {{user.employeeId}}</span>
+  </div> -->
+   
+     <div *ngIf="!user$" >
   <a mat-raised-button color="accent" (click)="logIn()">Login
   </a></div>
-      <div *ngIf="loggedInUser$"  class="example-button-row" >
+      <div *ngIf="user$" class="example-button-row" >
       <a mat-raised-button color="accent" (click)="logOut()">Logout
       </a></div>
        

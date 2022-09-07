@@ -16,6 +16,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { RegisterService } from './services/register.service';
+import { RequestComponent } from './components/request/request.component';
 
 
 
@@ -24,7 +25,9 @@ const routes: Routes=[
   children:[
     {path:'requests/:requestId', component: MainContentComponent},
     {path: 'login', component:LoginComponent},
-    {path: 'register', component:RegisterComponent}
+    {path: 'register', component:RegisterComponent},
+    {path: 'submitRquest', component: RequestComponent}
+
    
   ] },
 
@@ -39,6 +42,7 @@ const routes: Routes=[
     MainContentComponent,
     LoginComponent,
     RegisterComponent,
+    RequestComponent,
 
   ],
   imports: [

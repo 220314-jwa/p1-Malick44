@@ -11,8 +11,14 @@ export class RegisterComponent implements OnInit {
   pageTitle= "Register";
   errorMessage= " ";
   registrationForm: FormGroup;
+  routes: any;
   constructor(private fb:FormBuilder) { }
-  register():void{}
+  register():void{
+    this.routes.navigate(['/trmsapp/register'])
+  }
+  logIn(): void{
+    this.routes.navigate(['/trmsapp/login'])
+  }
 
   ngOnInit(): void {
     this.registrationForm= this.fb.group({

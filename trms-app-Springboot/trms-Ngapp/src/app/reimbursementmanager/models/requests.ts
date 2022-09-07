@@ -4,12 +4,12 @@ export class Request {
 
     requestId: number;
     employeeId: number;
-    eventTypeId: number;
-    status_name: string;
-    cost: number;
-    eventDate: Date;
-    description: string;
-    location: string;
-    submissionTime: Time;
+    eventTypeId?: number;
+    status_name?: string;
+    cost?: number;
+    eventDate?: Date;
+    description?: string;
+    location?: string;
+    submissionTime?: Time;
 
 }

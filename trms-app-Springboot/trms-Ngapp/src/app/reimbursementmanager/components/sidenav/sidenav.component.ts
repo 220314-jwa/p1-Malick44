@@ -27,16 +27,16 @@ export class SidenavComponent implements OnInit {
   loggedIndUser:Employee;
   errorMessage: string
   
-  loggedInuser$= this.loginService.loggedInuser$
-  .pipe(
-    tap(
-      data =>{this.loggedIndUser=data}
-    ),
-   catchError( err =>{
-     this.errorMessage=err;
-     return EMPTY;
-   })
-  );
+  // loggedInuser$= this.loginService.loggedInuser$
+  // .pipe(
+  //   tap(
+  //     data =>{this.loggedIndUser=data}
+  //   ),
+  //  catchError( err =>{
+  //    this.errorMessage=err;
+  //    return EMPTY;
+  //  })
+  // );
 
   ngOnInit(): void {
    

@@ -5,7 +5,7 @@ import { LoginService } from './../../services/login.service';
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { Employee } from '../../models/employee';
 import { Request } from '../../models/requests';
-import { catchError, EMPTY, map } from 'rxjs';
+import { catchError, EMPTY, map, BehaviorSubject, switchMap, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-toolbar',
@@ -23,8 +23,11 @@ export class ToolbarComponent implements OnInit {
     private requestsService: RequestsService,
      private http:HttpClient,
      private routes: Router     ) { }
-  //loggedInUser:Employee| undefined;
-loggedInUser$= this.loginService.loggedInuser$
+  loggedInUser:Employee;
+  id:string
+
+  user$ :string
+  loggedInUser$= this.loginService.loggedInuser$
  .pipe( 
   catchError( err =>{
     this.errorMessage=err;
@@ -34,7 +37,11 @@ loggedInUser$= this.loginService.loggedInuser$
 
   ngOnInit(): void {
 
+this.loginService.user.subscribe(
+  data => this.user$=data
+)
   }
+  
  
   
   logOut(): void {
@@ -45,6 +52,7 @@ loggedInUser$= this.loginService.loggedInuser$
     this.loginOrLogout.emit();
     console.log(sessionStorage.getItem('Auth-Token'))
     //console.log(this.loggedInUser)
+    this.user$=null;
    this.routes.navigate(['/trmsapp'])
     
   }
@@ -59,8 +67,8 @@ loggedInUser$= this.loginService.loggedInuser$
    // this.loginService.checkLogin();
     //this.getLoggedInUser();
    
-    console.log(sessionStorage.getItem('Auth-Token'))
-   
+    console.log(this.id)
+   console.log(this.loggedInUser)
     // firing the custom event
     this.loginOrLogout.emit();
     

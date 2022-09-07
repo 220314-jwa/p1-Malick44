@@ -13,11 +13,12 @@ export class LoginService {
   constructor(private http: HttpClient,
               private routes:Router) { }
   
-  loggedInUser:Employee ;
+  user = new BehaviorSubject(sessionStorage.getItem('Auth-Token'));
   errMessage:string;
   headers = {'Content-type':'application/json'};
   //_loggedInUser:BehaviorSubject<Employee>;
   url: string= "http://localhost:8080/Employees/";
+  
   
 
 async logIn(credentials:any): Promise<Employee> {
@@ -26,14 +27,29 @@ let credentialJson= JSON.stringify(credentials);
  if(httpResp && httpResp.status===200){
   let emp= await httpResp.json();
   sessionStorage.setItem('Auth-Token', emp.employeeId.toString().trim());
-  //this.routes.navigate(['/trmsapp/'])
-  this.loggedInUser =emp;
+  this.user.next(sessionStorage.getItem('Auth-Token'));
+  
  return emp;
  } else return null;
  
 
   }
+  //id:number= <number><unknown>sessionStorage.getItem('Auth-Token')
  
+
+
+// async checkLogin(): Promise<Employee>{
+//   let id= <number><unknown>sessionStorage.getItem('Auth-Token')
+//       let httpResp= await fetch(this.url,{method:'get',headers: this.headers});
+//         if(httpResp && httpResp.status===200){
+          
+//           return await httpResp.json();
+//         }else 
+//         return null;
+    
+
+//    //return this.loggedInUser;
+// }
 
  id = <number><unknown>sessionStorage.getItem('Auth-Token')
 
